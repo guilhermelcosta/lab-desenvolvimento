@@ -1,11 +1,14 @@
 package pucminas.listatarefas.controller;
 
 import org.springframework.web.bind.annotation.*;
+import pucminas.listatarefas.entity.Task;
 
 import java.util.UUID;
 
+import static pucminas.listatarefas.util.Constants.TASK_ENDPOINT;
+
 @RestController
-@RequestMapping("/task")
+@RequestMapping(TASK_ENDPOINT)
 public class TaskController {
 
     @GetMapping()
@@ -19,7 +22,7 @@ public class TaskController {
     }
 
     @PutMapping("/{id}")
-    public String update(@PathVariable UUID id) {
+    public String update(@PathVariable UUID id, Task task) {
         return "Atualizando tarefa...";
     }
 
