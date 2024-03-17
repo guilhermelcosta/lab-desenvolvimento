@@ -33,7 +33,8 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public Task findById(UUID id) {
         log.info(format("TaskServiceImpl - findById: encontrando tarefa por id: %s", id));
-        return taskRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Tarefa não encontrada"));
+        return taskRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Tarefa não encontrada"));
     }
 
     /**
@@ -99,15 +100,15 @@ public class TaskServiceImpl implements TaskService {
     }
 
     /**
-     * Muda o status da tarefa, se ela estiver com o atributo is_completed = true,
+     * Muda o status 'isCompleted' da tarefa, se ela estiver com o atributo is_completed = true,
      * troca para false, e vice-versa
      *
      * @param id id da tarefa
      * @return tarefa atualizada
      */
     @Override
-    public Task changeIsComplete(UUID id) {
-        log.info(format("TaskServiceImpl - changeIsComplete: alterando status da tarefa, id: %s", id));
+    public Task updateIsCompletedStatus(UUID id) {
+        log.info(format("TaskServiceImpl - updateIsCompletedStatus: alterando status da tarefa, id: %s", id));
         Task updatedTask = findById(id);
         updatedTask.setLastModifiedDate(now());
         updatedTask.setCompleted(!updatedTask.isCompleted());
@@ -115,7 +116,7 @@ public class TaskServiceImpl implements TaskService {
             updatedTask.setCompletedDate(null);
         else
             updatedTask.setCompletedDate(now());
-        log.info(format("TaskServiceImpl - changeIsComplete: Status de tarefa alterado com sucesso, id: %s", id));
+        log.info(format("TaskServiceImpl - updateIsCompletedStatus: Status de tarefa alterado com sucesso, id: %s", id));
         return taskRepository.save(updatedTask);
     }
 }

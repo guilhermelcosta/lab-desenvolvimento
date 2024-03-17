@@ -6,5 +6,5 @@ import java.util.UUID;
 
 public interface TaskService extends CrudService<Task> {
 
-    Task changeIsComplete(UUID id);
+    Task updateIsCompletedStatus(UUID id);
 }
