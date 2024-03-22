@@ -4,9 +4,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.CONFLICT)
-public class FailedDeleteException extends RuntimeException {
+public class TaskCreateException extends RuntimeException {
 
-    public FailedDeleteException(String message) {
+    public TaskCreateException(String message) {
         super(message);
     }
 }

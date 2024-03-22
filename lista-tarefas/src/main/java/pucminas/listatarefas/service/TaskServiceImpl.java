@@ -4,9 +4,13 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.record.RecordModule;
 import org.springframework.stereotype.Service;
+import pucminas.listatarefas.dto.TaskDTO;
 import pucminas.listatarefas.entity.Task;
-import pucminas.listatarefas.exceptions.FailedDeleteException;
+import pucminas.listatarefas.exceptions.TaskDeleteException;
+import pucminas.listatarefas.exceptions.TaskUpdateException;
 import pucminas.listatarefas.repository.TaskRepository;
 import pucminas.listatarefas.service.interfaces.TaskService;
 
@@ -16,6 +20,7 @@ import java.util.UUID;
 import static java.lang.String.format;
 import static java.time.LocalDateTime.now;
 import static org.springframework.beans.BeanUtils.copyProperties;
+import static pucminas.listatarefas.util.Constants.*;
 
 @Slf4j
 @Service
@@ -34,7 +39,7 @@ public class TaskServiceImpl implements TaskService {
     public Task findById(UUID id) {
         log.info(format("TaskServiceImpl - findById: encontrando tarefa por id: %s", id));
         return taskRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Tarefa não encontrada"));
+                .orElseThrow(() -> new EntityNotFoundException(format(MSG_TASK_NOT_FOUND_EXCEPTION, id)));
     }
 
     /**
@@ -56,14 +61,18 @@ public class TaskServiceImpl implements TaskService {
      */
     @Override
     public Task create(@NotNull Task task) {
-        log.info(format("TaskServiceImpl - create: criando tarefa, id: %s", task.getId()));
-        task.setId(null);
-        task.setCompleted(false);
-        task.setCreateDate(now());
-        task.setLastModifiedDate(now());
-        task = taskRepository.save(task);
-        log.info(format("TaskServiceImpl - create: tarefa criada com sucesso, id: %s", task.getId()));
-        return task;
+        try {
+            log.info(format("TaskServiceImpl - create: criando tarefa, id: %s", task.getId()));
+            task.setId(null);
+            task.setCompleted(false);
+            task.setCreateDate(now());
+            task.setLastModifiedDate(now());
+            task = taskRepository.save(task);
+            log.info(format("TaskServiceImpl - create: tarefa criada com sucesso, id: %s", task.getId()));
+            return task;
+        } catch (Exception e) {
+            throw new TaskUpdateException(format(MSG_TASK_CREATE_EXCEPTION, e));
+        }
     }
 
     /**
@@ -74,13 +83,17 @@ public class TaskServiceImpl implements TaskService {
      */
     @Override
     public Task update(@NotNull Task task) {
-        log.info(format("TaskServiceImpl - update: atualizando tarefa, id: %s", task.getId()));
-        Task updatedTask = findById(task.getId());
-        copyProperties(task, updatedTask);
-        updatedTask.setLastModifiedDate(now());
-        updatedTask = taskRepository.save(updatedTask);
-        log.info(format("TaskServiceImpl - update: tarefa atualizado, id: %s", updatedTask.getId()));
-        return updatedTask;
+        try {
+            log.info(format("TaskServiceImpl - update: atualizando tarefa, id: %s", task.getId()));
+            Task updatedTask = findById(task.getId());
+            copyProperties(task, updatedTask);
+            updatedTask.setLastModifiedDate(now());
+            updatedTask = taskRepository.save(updatedTask);
+            log.info(format("TaskServiceImpl - update: tarefa atualizado, id: %s", updatedTask.getId()));
+            return updatedTask;
+        } catch (Exception e) {
+            throw new TaskUpdateException(format(MSG_TASK_UPDATE_EXCEPTION, e));
+        }
     }
 
     /**
@@ -95,7 +108,7 @@ public class TaskServiceImpl implements TaskService {
             taskRepository.deleteById(id);
             log.info(format("TaskServiceImpl - delete: tarefa deletada com sucesso, id: %s", id));
         } catch (Exception e) {
-            throw new FailedDeleteException(format("Falha ao deletar entidade de id: %s", id));
+            throw new TaskDeleteException(format(MSG_TASK_DELETE_EXCEPTION, e));
         }
     }
 
@@ -109,14 +122,18 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public Task updateIsCompletedStatus(UUID id) {
         log.info(format("TaskServiceImpl - updateIsCompletedStatus: alterando status da tarefa, id: %s", id));
-        Task updatedTask = findById(id);
-        updatedTask.setLastModifiedDate(now());
-        updatedTask.setCompleted(!updatedTask.isCompleted());
-        if (!updatedTask.isCompleted())
-            updatedTask.setCompletedDate(null);
-        else
-            updatedTask.setCompletedDate(now());
-        log.info(format("TaskServiceImpl - updateIsCompletedStatus: Status de tarefa alterado com sucesso, id: %s", id));
-        return taskRepository.save(updatedTask);
+        try {
+            Task updatedTask = findById(id);
+            updatedTask.setLastModifiedDate(now());
+            updatedTask.setCompleted(!updatedTask.isCompleted());
+            if (!updatedTask.isCompleted())
+                updatedTask.setCompletedDate(null);
+            else
+                updatedTask.setCompletedDate(now());
+            log.info(format("TaskServiceImpl - updateIsCompletedStatus: Status de tarefa alterado com sucesso, id: %s", id));
+            return taskRepository.save(updatedTask);
+        } catch (Exception e) {
+            throw new TaskUpdateException(format(MSG_TASK_UPDATE_EXCEPTION, e));
+        }
     }
 }

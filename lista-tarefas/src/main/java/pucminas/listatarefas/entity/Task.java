@@ -14,6 +14,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import static pucminas.listatarefas.enums.Priority.NO_PRIORITY;
 import static pucminas.listatarefas.util.Constants.*;
 
 @Data
@@ -47,7 +48,7 @@ public class Task implements Serializable {
     @Enumerated(EnumType.STRING)
     @Schema(description = "Prioridade da tarefa")
     @Column(name = PRIORITY, nullable = false)
-    private Priority priority;
+    private Priority priority = NO_PRIORITY;
 
     @Enumerated(EnumType.STRING)
     @Schema(description = "Tag (classificação) da tarefa")

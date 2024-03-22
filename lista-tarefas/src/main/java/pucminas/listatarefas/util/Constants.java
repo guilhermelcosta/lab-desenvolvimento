@@ -32,4 +32,12 @@ public class Constants {
     public static final String DATE_PATTERN = "dd/MM/yyyy HH:mm:ss";
 
     public static final String MSG_NAME_ERROR = "o nome da tarefa não deve conter caracteres especiais";
+
+    public static final String MSG_TASK_UPDATE_EXCEPTION = "falha ao atualizar tarefa: %s";
+
+    public static final String MSG_TASK_DELETE_EXCEPTION = "falha ao deletar tarefa: %s";
+
+    public static final String MSG_TASK_CREATE_EXCEPTION = "falha ao criar tarefa: %s";
+
+    public static final String MSG_TASK_NOT_FOUND_EXCEPTION = "tarefa não encontrada, id: %s";
 }

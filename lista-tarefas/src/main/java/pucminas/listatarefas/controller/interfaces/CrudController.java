@@ -10,17 +10,17 @@ import java.util.UUID;
 public interface CrudController<T> {
 
     @GetMapping("/{id}")
-    ResponseEntity<T> findById(UUID id);
+    ResponseEntity<T> findById(@PathVariable UUID id);
 
     @GetMapping
     ResponseEntity<List<T>> listAll();
 
     @PostMapping
-    ResponseEntity<Task> create(T t);
+    ResponseEntity<T> create(@RequestBody T t);
 
     @PutMapping("/{id}")
-    ResponseEntity<Task> update(@PathVariable UUID id, T t);
+    ResponseEntity<T> update(@PathVariable UUID id, @RequestBody T t);
 
     @DeleteMapping("/{id}")
-    ResponseEntity<String> delete(@PathVariable UUID id);
+    ResponseEntity<Void> delete(@PathVariable UUID id);
 }
