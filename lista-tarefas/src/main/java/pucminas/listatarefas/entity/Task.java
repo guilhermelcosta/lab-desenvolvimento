@@ -1,6 +1,7 @@
 package pucminas.listatarefas.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
@@ -33,6 +34,7 @@ public class Task implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Schema(description = "ID da tarefa")
+    @JsonIgnore
     @Column(name = ID, unique = true, nullable = false, updatable = false)
     private UUID id;
 
@@ -60,26 +62,30 @@ public class Task implements Serializable {
     @Column(name = DUE_DATE)
     private LocalDateTime dueDate;
 
-    @JsonProperty(COMPLETED_DATE)
+    @JsonProperty(COMPLETED_DATE_JSON)
     @JsonFormat(pattern = DATE_PATTERN)
     @Schema(description = "Data que a tarefa foi concluída")
-    @Column(name = COMPLETED_DATE)
+    @JsonIgnore
+    @Column(name = COMPLETED_DATE_JSON)
     private LocalDateTime completedDate;
 
-    @JsonProperty(CREATE_DATE)
+    @JsonProperty(CREATE_DATE_JSON)
     @JsonFormat(pattern = DATE_PATTERN)
     @Schema(description = "Data de criação da tarefa")
-    @Column(name = CREATE_DATE, nullable = false, updatable = false)
+    @JsonIgnore
+    @Column(name = CREATE_DATE_JSON, nullable = false, updatable = false)
     private LocalDateTime createDate;
 
-    @JsonProperty(LAST_MODIFIED_DATE)
+    @JsonProperty(LAST_MODIFIED_DATE_JSON)
     @JsonFormat(pattern = DATE_PATTERN)
     @Schema(description = "Data de última modificação da tarefa")
-    @Column(name = LAST_MODIFIED_DATE, nullable = false)
+    @JsonIgnore
+    @Column(name = LAST_MODIFIED_DATE_JSON, nullable = false)
     private LocalDateTime lastModifiedDate;
 
-    @Column(name = IS_COMPLETED, nullable = false)
     @Schema(description = "Atributo que indica se a tarefa já foi ou não concluída")
-    @JsonProperty(IS_COMPLETED)
+    @JsonProperty(IS_COMPLETED_JSON)
+    @JsonIgnore
+    @Column(name = IS_COMPLETED_JSON, nullable = false)
     private boolean isCompleted;
 }

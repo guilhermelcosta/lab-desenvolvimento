@@ -4,10 +4,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.record.RecordModule;
 import org.springframework.stereotype.Service;
-import pucminas.listatarefas.dto.TaskDTO;
 import pucminas.listatarefas.entity.Task;
 import pucminas.listatarefas.exceptions.TaskDeleteException;
 import pucminas.listatarefas.exceptions.TaskUpdateException;
@@ -22,7 +19,7 @@ import static java.time.LocalDateTime.now;
 import static org.springframework.beans.BeanUtils.copyProperties;
 import static pucminas.listatarefas.util.Constants.*;
 
-@Slf4j
+@Slf4j(topic = TASK_SERVICE)
 @Service
 @AllArgsConstructor
 public class TaskServiceImpl implements TaskService {
@@ -62,7 +59,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public Task create(@NotNull Task task) {
         try {
-            log.info(format("TaskServiceImpl - create: criando tarefa, id: %s", task.getId()));
+            log.info("TaskServiceImpl - create: criando tarefa");
             task.setId(null);
             task.setCompleted(false);
             task.setCreateDate(now());
@@ -86,11 +83,34 @@ public class TaskServiceImpl implements TaskService {
         try {
             log.info(format("TaskServiceImpl - update: atualizando tarefa, id: %s", task.getId()));
             Task updatedTask = findById(task.getId());
-            copyProperties(task, updatedTask);
+            copyProperties(task, updatedTask, IGNORED_PROPERTIES);
             updatedTask.setLastModifiedDate(now());
             updatedTask = taskRepository.save(updatedTask);
             log.info(format("TaskServiceImpl - update: tarefa atualizado, id: %s", updatedTask.getId()));
             return updatedTask;
+        } catch (Exception e) {
+            throw new TaskUpdateException(format(MSG_TASK_UPDATE_EXCEPTION, e));
+        }
+    }
+
+    /**
+     * Muda o status 'isCompleted' da tarefa, se ela estiver com o atributo is_completed = true,
+     * troca para false, e vice-versa
+     *
+     * @param id id da tarefa
+     * @return tarefa atualizada
+     */
+    @Override
+    public Task updateIsCompletedStatus(UUID id) {
+        log.info(format("TaskServiceImpl - updateIsCompletedStatus: alterando status da tarefa, id: %s", id));
+        try {
+            Task updatedTask = findById(id);
+            boolean isCompleted = !updatedTask.isCompleted();
+            updatedTask.setLastModifiedDate(now());
+            updatedTask.setCompleted(isCompleted);
+            updatedTask.setCompletedDate(isCompleted ? now() : null);
+            log.info(format("TaskServiceImpl - updateIsCompletedStatus: Status de tarefa alterado com sucesso, id: %s", id));
+            return taskRepository.save(updatedTask);
         } catch (Exception e) {
             throw new TaskUpdateException(format(MSG_TASK_UPDATE_EXCEPTION, e));
         }
@@ -109,31 +129,6 @@ public class TaskServiceImpl implements TaskService {
             log.info(format("TaskServiceImpl - delete: tarefa deletada com sucesso, id: %s", id));
         } catch (Exception e) {
             throw new TaskDeleteException(format(MSG_TASK_DELETE_EXCEPTION, e));
-        }
-    }
-
-    /**
-     * Muda o status 'isCompleted' da tarefa, se ela estiver com o atributo is_completed = true,
-     * troca para false, e vice-versa
-     *
-     * @param id id da tarefa
-     * @return tarefa atualizada
-     */
-    @Override
-    public Task updateIsCompletedStatus(UUID id) {
-        log.info(format("TaskServiceImpl - updateIsCompletedStatus: alterando status da tarefa, id: %s", id));
-        try {
-            Task updatedTask = findById(id);
-            updatedTask.setLastModifiedDate(now());
-            updatedTask.setCompleted(!updatedTask.isCompleted());
-            if (!updatedTask.isCompleted())
-                updatedTask.setCompletedDate(null);
-            else
-                updatedTask.setCompletedDate(now());
-            log.info(format("TaskServiceImpl - updateIsCompletedStatus: Status de tarefa alterado com sucesso, id: %s", id));
-            return taskRepository.save(updatedTask);
-        } catch (Exception e) {
-            throw new TaskUpdateException(format(MSG_TASK_UPDATE_EXCEPTION, e));
         }
     }
 }

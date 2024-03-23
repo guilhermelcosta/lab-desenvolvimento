@@ -7,19 +7,19 @@ import pucminas.listatarefas.entity.Task;
 import java.util.List;
 import java.util.UUID;
 
-public interface CrudController<T> {
+public interface CrudController<I, O> {
 
     @GetMapping("/{id}")
-    ResponseEntity<T> findById(@PathVariable UUID id);
+    ResponseEntity<O> findById(@PathVariable UUID id);
 
     @GetMapping
-    ResponseEntity<List<T>> listAll();
+    ResponseEntity<List<O>> listAll();
 
     @PostMapping
-    ResponseEntity<T> create(@RequestBody T t);
+    ResponseEntity<O> create(@RequestBody I i);
 
     @PutMapping("/{id}")
-    ResponseEntity<T> update(@PathVariable UUID id, @RequestBody T t);
+    ResponseEntity<O> update(@PathVariable UUID id, @RequestBody I i);
 
     @DeleteMapping("/{id}")
     ResponseEntity<Void> delete(@PathVariable UUID id);

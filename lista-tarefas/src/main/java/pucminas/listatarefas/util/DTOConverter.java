@@ -15,8 +15,10 @@ public class DTOConverter {
      */
     public static TaskDTO convertToDTO(Task task) {
         return TaskDTO.builder()
+                .id(task.getId())
                 .title(task.getTitle())
                 .description(task.getDescription())
+                .priority(task.getPriority())
                 .tag(task.getTag())
                 .dueTime(task.getDueDate())
                 .completedDate(task.getCompletedDate())

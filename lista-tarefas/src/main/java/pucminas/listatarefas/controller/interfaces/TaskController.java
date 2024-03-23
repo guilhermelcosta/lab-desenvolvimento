@@ -7,7 +7,7 @@ import pucminas.listatarefas.entity.Task;
 
 import java.util.UUID;
 
-public interface TaskController extends CrudController<TaskDTO> {
+public interface TaskController extends CrudController<Task, TaskDTO> {
 
     @PatchMapping("/{id}")
     ResponseEntity<TaskDTO> updateIsCompletedStatus(UUID id);

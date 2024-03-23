@@ -14,10 +14,11 @@ import pucminas.listatarefas.util.DTOConverter;
 import java.util.List;
 import java.util.UUID;
 
+import static pucminas.listatarefas.util.Constants.TASK_CONTROLLER;
 import static pucminas.listatarefas.util.Constants.TASK_ENDPOINT;
 import static pucminas.listatarefas.util.DTOConverter.convertToDTO;
 
-@Slf4j
+@Slf4j(topic = TASK_CONTROLLER)
 @AllArgsConstructor
 @RestController
 @RequestMapping(TASK_ENDPOINT)
@@ -33,7 +34,8 @@ public class TaskControllerImpl implements TaskController {
      */
     @Operation(summary = "Rota para encontrar uma task por id.",
             description = "Essa rota recebe um ID como parâmetro e retorna um objeto do tipo Tarefa que corresponde a esse ID. " +
-                    "Caso não exista task com esse ID, a requisição informa que não existe task com esse ID.")
+                    "Caso não exista task com esse ID, a requisição informa que não existe task com esse ID."
+    )
     @GetMapping("/{id}")
     @Override
     public ResponseEntity<TaskDTO> findById(@PathVariable UUID id) {
@@ -58,6 +60,7 @@ public class TaskControllerImpl implements TaskController {
 
     /**
      * Rota para criar uma nova task
+     * (
      *
      * @param task objeto do tipo Tarefa
      * @return task criada
