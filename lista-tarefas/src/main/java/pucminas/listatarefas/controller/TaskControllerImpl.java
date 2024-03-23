@@ -1,9 +1,11 @@
 package pucminas.listatarefas.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import pucminas.listatarefas.controller.interfaces.TaskController;
 import pucminas.listatarefas.dto.TaskDTO;
@@ -19,6 +21,7 @@ import static pucminas.listatarefas.util.Constants.TASK_ENDPOINT;
 import static pucminas.listatarefas.util.DTOConverter.convertToDTO;
 
 @Slf4j(topic = TASK_CONTROLLER)
+@Validated
 @AllArgsConstructor
 @RestController
 @RequestMapping(TASK_ENDPOINT)
@@ -71,7 +74,7 @@ public class TaskControllerImpl implements TaskController {
                     "o sistema retorna erros com os status adequados.")
     @PostMapping
     @Override
-    public ResponseEntity<TaskDTO> create(@RequestBody Task task) {
+    public ResponseEntity<TaskDTO> create(@Valid @RequestBody Task task) {
         log.info("TaskControllerImpl - create: recebendo requisição para criar task");
         Task createdTask = taskService.create(task);
         return ResponseEntity.ok().body(convertToDTO(createdTask));
@@ -89,7 +92,7 @@ public class TaskControllerImpl implements TaskController {
                     " como por exemplo uma data incorreta (35/01/2024), o sistema retorna erros com os status adequados.")
     @PutMapping("/{id}")
     @Override
-    public ResponseEntity<TaskDTO> update(@PathVariable UUID id, @RequestBody Task task) {
+    public ResponseEntity<TaskDTO> update(@PathVariable UUID id, @Valid @RequestBody Task task) {
         log.info("TaskControllerImpl - update: recebendo requisição para atualizar task");
         task.setId(id);
         Task updatedTask = taskService.update(task);
