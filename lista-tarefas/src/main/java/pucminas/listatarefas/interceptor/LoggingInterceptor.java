@@ -6,7 +6,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-@Slf4j
+import static pucminas.listatarefas.util.Constants.LOGGING_INTERCEPTOR;
+
+@Slf4j(topic = LOGGING_INTERCEPTOR)
 public class LoggingInterceptor implements HandlerInterceptor {
 
     /**
@@ -20,7 +22,7 @@ public class LoggingInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         log.info("========================================");
-        log.info("Recebendo requisição");
+        log.info(">>> LoggingInterceptor - preHandle: iniciando interceptador");
         return true;
     }
 
@@ -33,8 +35,7 @@ public class LoggingInterceptor implements HandlerInterceptor {
      */
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
-        log.info("========================================");
-        log.info("Requisição finalizada");
+//        Até o momento, não vejo utilidade para utilizar este método, por isso ele está vazio.
     }
 
     /**
@@ -47,5 +48,6 @@ public class LoggingInterceptor implements HandlerInterceptor {
      */
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
+//        Até o momento, não vejo utilidade para utilizar este método, por isso ele está vazio.
     }
 }

@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
+import org.springframework.hateoas.RepresentationModel;
 import pucminas.listatarefas.enums.Priority;
 import pucminas.listatarefas.enums.Tag;
 
@@ -24,9 +25,9 @@ import static pucminas.listatarefas.util.Constants.*;
 @Table(name = TB_TASK)
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = true)
 @Schema(description = "Classe que representa a classe de tarefa do projeto")
-public class Task implements Serializable {
+public class Task extends RepresentationModel<Task> implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;

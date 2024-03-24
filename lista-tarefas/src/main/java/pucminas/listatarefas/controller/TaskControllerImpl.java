@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -42,7 +43,7 @@ public class TaskControllerImpl implements TaskController {
     @GetMapping("/{id}")
     @Override
     public ResponseEntity<TaskDTO> findById(@PathVariable UUID id) {
-        log.info("TaskControllerImpl - findById: recebendo requisição para encontrar task por id");
+        log.info(">>> TaskControllerImpl - findById: recebendo requisição para encontrar task por id");
         Task task = taskService.findById(id);
         return ResponseEntity.ok().body(convertToDTO(task));
     }
@@ -56,7 +57,7 @@ public class TaskControllerImpl implements TaskController {
     @GetMapping
     @Override
     public ResponseEntity<List<TaskDTO>> listAll() {
-        log.info("TaskControllerImpl - listAll: recebendo requisição para listar todas as tasks cadastradas");
+        log.info(">>> TaskControllerImpl - listAll: recebendo requisição para listar todas as tasks cadastradas");
         List<Task> taskList = taskService.listAll();
         return ResponseEntity.ok().body(taskList.stream().map(DTOConverter::convertToDTO).toList());
     }
@@ -75,7 +76,7 @@ public class TaskControllerImpl implements TaskController {
     @PostMapping
     @Override
     public ResponseEntity<TaskDTO> create(@Valid @RequestBody Task task) {
-        log.info("TaskControllerImpl - create: recebendo requisição para criar task");
+        log.info(">>> TaskControllerImpl - create: recebendo requisição para criar task");
         Task createdTask = taskService.create(task);
         return ResponseEntity.ok().body(convertToDTO(createdTask));
     }
@@ -92,8 +93,8 @@ public class TaskControllerImpl implements TaskController {
                     " como por exemplo uma data incorreta (35/01/2024), o sistema retorna erros com os status adequados.")
     @PutMapping("/{id}")
     @Override
-    public ResponseEntity<TaskDTO> update(@PathVariable UUID id, @Valid @RequestBody Task task) {
-        log.info("TaskControllerImpl - update: recebendo requisição para atualizar task");
+    public ResponseEntity<TaskDTO> update(@PathVariable UUID id, @Valid @RequestBody @NotNull Task task) {
+        log.info(">>> TaskControllerImpl - update: recebendo requisição para atualizar task");
         task.setId(id);
         Task updatedTask = taskService.update(task);
         return ResponseEntity.ok().body(convertToDTO(updatedTask));
@@ -111,7 +112,7 @@ public class TaskControllerImpl implements TaskController {
     @DeleteMapping("/{id}")
     @Override
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
-        log.info("TaskControllerImpl - delete: recebendo requisição para deletar task");
+        log.info(">>> TaskControllerImpl - delete: recebendo requisição para deletar task");
         taskService.delete(id);
         return ResponseEntity.noContent().build();
     }
@@ -129,7 +130,7 @@ public class TaskControllerImpl implements TaskController {
     @PatchMapping("/{id}")
     @Override
     public ResponseEntity<TaskDTO> updateIsCompletedStatus(@PathVariable UUID id) {
-        log.info("TaskControllerImpl - updateIsCompletedStatus: recebendo requisição para alterar status da task");
+        log.info(">>> TaskControllerImpl - updateIsCompletedStatus: recebendo requisição para alterar status da task");
         Task updatedTask = taskService.updateIsCompletedStatus(id);
         return ResponseEntity.ok().body(convertToDTO(updatedTask));
     }

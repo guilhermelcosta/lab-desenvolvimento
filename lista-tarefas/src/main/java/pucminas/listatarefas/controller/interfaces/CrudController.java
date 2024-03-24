@@ -2,11 +2,16 @@ package pucminas.listatarefas.controller.interfaces;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pucminas.listatarefas.entity.Task;
 
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Classes com operações gerais de crud na camada de Controller (create, update e delete)
+ *
+ * @param <I> Classe de entrada (input)
+ * @param <O> Classe de saída (output)
+ */
 public interface CrudController<I, O> {
 
     @GetMapping("/{id}")

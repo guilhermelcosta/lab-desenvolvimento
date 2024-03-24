@@ -1,8 +1,13 @@
 package pucminas.listatarefas.util;
 
 import lombok.experimental.UtilityClass;
+import pucminas.listatarefas.controller.interfaces.TaskController;
 import pucminas.listatarefas.dto.TaskDTO;
 import pucminas.listatarefas.entity.Task;
+
+import static java.util.Collections.singletonList;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static pucminas.listatarefas.util.Constants.TASK_ENDPOINT;
 
 @UtilityClass
 public class DTOConverter {
@@ -23,6 +28,7 @@ public class DTOConverter {
                 .dueTime(task.getDueDate())
                 .completedDate(task.getCompletedDate())
                 .isCompleted(task.isCompleted())
+                .links(singletonList(linkTo(TaskController.class).slash(TASK_ENDPOINT).slash(task.getId()).withSelfRel()))
                 .build();
     }
 }

@@ -54,4 +54,6 @@ public class Constants {
     public static final String TASK_SERVICE = "Task Service";
 
     public static final String TASK_CONTROLLER = "Task Controller";
+
+    public static final String LOGGING_INTERCEPTOR = "Logging Interceptor";
 }
