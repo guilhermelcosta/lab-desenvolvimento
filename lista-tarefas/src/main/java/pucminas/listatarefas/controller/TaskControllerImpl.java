@@ -100,24 +100,7 @@ public class TaskControllerImpl implements TaskController {
         return ResponseEntity.ok().body(convertToDTO(updatedTask));
     }
 
-    /**
-     * Rota para deletar uma task
-     *
-     * @param id id da task
-     * @return task deletada
-     */
-    @Operation(summary = "Rota para deletar uma task.",
-            description = "Essa rota é responsável por deletar uma task a partir do seu ID, que é passado pelo url da rota." +
-                    "Caso não exista task com esse ID, a requisição informa que não existe task com esse ID.")
-    @DeleteMapping("/{id}")
-    @Override
-    public ResponseEntity<Void> delete(@PathVariable UUID id) {
-        log.info(">>> TaskControllerImpl - delete: recebendo requisição para deletar task");
-        taskService.delete(id);
-        return ResponseEntity.noContent().build();
-    }
-
-    /**
+        /**
      * Rota para atualizar o status de 'isCompleted' da task
      *
      * @param id id da task
@@ -133,5 +116,22 @@ public class TaskControllerImpl implements TaskController {
         log.info(">>> TaskControllerImpl - updateIsCompletedStatus: recebendo requisição para alterar status da task");
         Task updatedTask = taskService.updateIsCompletedStatus(id);
         return ResponseEntity.ok().body(convertToDTO(updatedTask));
+    }
+
+    /**
+     * Rota para deletar uma task
+     *
+     * @param id id da task
+     * @return task deletada
+     */
+    @Operation(summary = "Rota para deletar uma task.",
+            description = "Essa rota é responsável por deletar uma task a partir do seu ID, que é passado pelo url da rota." +
+                    "Caso não exista task com esse ID, a requisição informa que não existe task com esse ID.")
+    @DeleteMapping("/{id}")
+    @Override
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
+        log.info(">>> TaskControllerImpl - delete: recebendo requisição para deletar task");
+        taskService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }
