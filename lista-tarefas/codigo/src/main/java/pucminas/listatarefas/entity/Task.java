@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static pucminas.listatarefas.enums.Priority.NO_PRIORITY;
-import static pucminas.listatarefas.util.Constants.*;
+import static pucminas.listatarefas.util.constants.Constants.*;
 
 @Data
 @Entity
@@ -58,10 +58,16 @@ public class Task extends RepresentationModel<Task> implements Serializable {
     @Column(name = TAG)
     private Tag tag;
 
+    @JsonProperty(DUE_DATE)
     @JsonFormat(pattern = DATE_PATTERN)
     @Schema(description = "Data de finalização da tarefa")
     @Column(name = DUE_DATE)
     private LocalDateTime dueDate;
+
+    @JsonProperty(DAYS_TO_COMPLETE)
+    @Schema(description = "Quantidade de dias para concluir a tarefa (prazo)")
+    @Column(name = DAYS_TO_COMPLETE)
+    private Integer daysToComplete;
 
     @JsonProperty(COMPLETED_DATE_JSON)
     @JsonFormat(pattern = DATE_PATTERN)

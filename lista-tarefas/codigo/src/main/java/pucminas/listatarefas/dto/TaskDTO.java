@@ -18,6 +18,7 @@ public record TaskDTO(UUID id,
                       Priority priority,
                       Tag tag,
                       LocalDateTime dueTime,
+                      Integer daysToComplete,
                       LocalDateTime completedDate,
                       boolean isCompleted,
                       List<Link> links) {
