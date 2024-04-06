@@ -19,6 +19,7 @@ import static java.lang.String.format;
 import static java.time.LocalDateTime.now;
 import static org.springframework.beans.BeanUtils.copyProperties;
 import static pucminas.listatarefas.util.Constants.*;
+import static pucminas.listatarefas.util.DateFormatter.formatDate;
 
 @Slf4j(topic = TASK_SERVICE)
 @Service
@@ -64,6 +65,7 @@ public class TaskServiceImpl implements TaskService {
             task.setId(null);
             task.setCompleted(false);
             task.setCreateDate(now());
+            isDueDateValid(task);
             task.setLastModifiedDate(now());
             task = taskRepository.save(task);
             log.info(format(">>> TaskServiceImpl - create: tarefa criada com sucesso, id: %s", task.getId()));
@@ -132,5 +134,15 @@ public class TaskServiceImpl implements TaskService {
         } catch (Exception e) {
             throw new TaskDeleteException(format(MSG_TASK_DELETE_EXCEPTION, e));
         }
+    }
+
+    /**
+     * Valida se uma data é válida, ou seja, após a data atual
+     *
+     * @param task objeto do tipo Tarefa
+     */
+    private void isDueDateValid(@NotNull Task task) throws Exception {
+        if (task.getDueDate().isBefore(now()))
+            throw new Exception(format("A data de conclusão da tarefa (%s) deve ser posterior à data atual (%s)", formatDate(task.getDueDate()), formatDate(now())));
     }
 }
