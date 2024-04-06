@@ -1,4 +1,4 @@
-package pucminas.listatarefas.util;
+package pucminas.listatarefas.util.constants;
 
 import lombok.experimental.UtilityClass;
 
@@ -20,6 +20,8 @@ public class Constants {
     public static final String TAG = "tag";
 
     public static final String DUE_DATE = "due_date";
+
+    public static final String DAYS_TO_COMPLETE = "days_to_complete";
 
     public static final String COMPLETED_DATE_JSON = "completed_date";
 
@@ -43,17 +45,11 @@ public class Constants {
 
     public static final String MSG_NAME_ERROR = "o nome da tarefa não deve conter caracteres especiais";
 
-    public static final String MSG_TASK_UPDATE_EXCEPTION = "falha ao atualizar tarefa: %s";
-
-    public static final String MSG_TASK_DELETE_EXCEPTION = "falha ao deletar tarefa: %s";
-
-    public static final String MSG_TASK_CREATE_EXCEPTION = "falha ao criar tarefa: %s";
-
-    public static final String MSG_TASK_NOT_FOUND_EXCEPTION = "tarefa não encontrada, id: %s";
-
     public static final String TASK_SERVICE = "Task Service";
 
     public static final String TASK_CONTROLLER = "Task Controller";
 
     public static final String LOGGING_INTERCEPTOR = "Logging Interceptor";
+
+    public static final String EXCEPTION_INTERCEPTOR = "Exception Interceptor";
 }

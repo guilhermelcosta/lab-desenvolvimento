@@ -3,11 +3,13 @@ package pucminas.listatarefas.interceptor;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import static pucminas.listatarefas.util.Constants.LOGGING_INTERCEPTOR;
+import static pucminas.listatarefas.util.constants.Constants.LOGGING_INTERCEPTOR;
 
+@Component
 @Slf4j(topic = LOGGING_INTERCEPTOR)
 public class LoggingInterceptor implements HandlerInterceptor {
 

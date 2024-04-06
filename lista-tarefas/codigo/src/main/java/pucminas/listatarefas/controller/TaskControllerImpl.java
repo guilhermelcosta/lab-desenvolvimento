@@ -17,8 +17,8 @@ import pucminas.listatarefas.util.DTOConverter;
 import java.util.List;
 import java.util.UUID;
 
-import static pucminas.listatarefas.util.Constants.TASK_CONTROLLER;
-import static pucminas.listatarefas.util.Constants.TASK_ENDPOINT;
+import static pucminas.listatarefas.util.constants.Constants.TASK_CONTROLLER;
+import static pucminas.listatarefas.util.constants.Constants.TASK_ENDPOINT;
 import static pucminas.listatarefas.util.DTOConverter.convertToDTO;
 
 @Slf4j(topic = TASK_CONTROLLER)
@@ -37,7 +37,7 @@ public class TaskControllerImpl implements TaskController {
      * @return tarefa encontrada
      */
     @Operation(summary = "Rota para encontrar uma task por id.",
-            description = "Essa rota recebe um ID como parâmetro e retorna um objeto do tipo Tarefa que corresponde a esse ID. " +
+            description = "Essa rota recebe um ID como parâmetro e retorna um objeto do tipo Task que corresponde a esse ID. " +
                     "Caso não exista task com esse ID, a requisição informa que não existe task com esse ID."
     )
     @GetMapping("/{id}")
@@ -66,11 +66,11 @@ public class TaskControllerImpl implements TaskController {
      * Rota para criar uma nova task
      * (
      *
-     * @param task objeto do tipo Tarefa
+     * @param task objeto do tipo Task
      * @return task criada
      */
     @Operation(summary = "Rota para criar uma nova task.",
-            description = "Essa rota recebe um objeto do tipo Tarefa no corpo da requisição e, a partir dos dados enviados, cria uma nova Tarefa." +
+            description = "Essa rota recebe um objeto do tipo Task no corpo da requisição e, a partir dos dados enviados, cria uma nova Tarefa." +
                     "Caso alguma informação seja enviada equivocadamente, como por exemplo uma data incorreta (35/01/2024), " +
                     "o sistema retorna erros com os status adequados.")
     @PostMapping
@@ -84,11 +84,11 @@ public class TaskControllerImpl implements TaskController {
     /**
      * Rota para atualizar uma task
      *
-     * @param task objeto do tipo Tarefa
+     * @param task objeto do tipo Task
      * @return task atualizada
      */
     @Operation(summary = "Rota para atualizar uma task.",
-            description = "Essa rota recebe o ID de uma task na url da rota e um objeto do tipo Tarefa no corpo da requisição, " +
+            description = "Essa rota recebe o ID de uma task na url da rota e um objeto do tipo Task no corpo da requisição, " +
                     "a partir dos dados enviados, atualiza uma task pré-existente. Caso alguma informação seja enviada equivocadamente," +
                     " como por exemplo uma data incorreta (35/01/2024), o sistema retorna erros com os status adequados.")
     @PutMapping("/{id}")
