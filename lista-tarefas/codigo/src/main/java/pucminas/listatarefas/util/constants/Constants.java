@@ -5,6 +5,8 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class Constants {
 
+    public static final Integer SEVEN = 7;
+
     public static final String TASK_ENDPOINT = "task";
 
     public static final String TB_TASK = "TB_TASK";

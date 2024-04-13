@@ -65,6 +65,7 @@ public class TaskServiceImpl implements TaskService {
     public Task create(@NotNull Task task) {
         log.info(">>> TaskServiceImpl - create: criando tarefa");
         validateTaskFields(task);
+        calculateTaskFields(task);
         task.setId(null);
         task.setCompleted(false);
         task.setCreateDate(now());
@@ -84,6 +85,7 @@ public class TaskServiceImpl implements TaskService {
     public Task update(@NotNull Task task) {
         log.info(">>> TaskServiceImpl - update: atualizando tarefa");
         validateTaskFields(task);
+        calculateTaskFields(task);
         Task updatedTask = findById(task.getId());
         copyProperties(task, updatedTask, IGNORED_PROPERTIES);
         updatedTask.setLastModifiedDate(now());
@@ -129,16 +131,24 @@ public class TaskServiceImpl implements TaskService {
     }
 
     /**
-     * Faz validações de campos da tarefa:
+     * Faz validações dos campos da tarefa:
      * - Data de conclusão inválida (data de conclusão > data atual)
      * - Datas conflitantes: tarefa possui data de conclusão E prazo para conclusão, só pode haver um dos dois
      *
      * @param task objeto do tipo Task
      */
-    // todo: fazer interface de validadores
     private void validateTaskFields(Task task) {
         isDueDateValid(task);
         hasConflictedDates(task);
+    }
+
+    /**
+     * Faz cálculos dod campos da tarefa:
+     * - Data de conclusão da tarefa, a partir da quantidade de dias para conclusão
+     *
+     * @param task objeto do tipo Task
+     */
+    private void calculateTaskFields(Task task) {
         calculateDueDate(task);
     }
 

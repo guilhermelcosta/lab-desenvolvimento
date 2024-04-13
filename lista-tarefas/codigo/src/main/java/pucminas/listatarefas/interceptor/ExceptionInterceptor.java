@@ -19,7 +19,6 @@ import pucminas.listatarefas.exceptions.InvalidDueDateException;
 
 import static java.lang.String.format;
 import static org.springframework.http.HttpStatus.*;
-import static org.springframework.http.HttpStatus.CONFLICT;
 import static pucminas.listatarefas.util.constants.Constants.EXCEPTION_INTERCEPTOR;
 
 @Component

@@ -7,6 +7,7 @@ import pucminas.listatarefas.entity.Task;
 
 import static java.util.Collections.singletonList;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static pucminas.listatarefas.util.StatusUtil.calculateStatus;
 import static pucminas.listatarefas.util.constants.Constants.TASK_ENDPOINT;
 
 @UtilityClass
@@ -24,6 +25,7 @@ public class DTOConverter {
                 .title(task.getTitle())
                 .description(task.getDescription())
                 .priority(task.getPriority())
+                .status(calculateStatus(task))
                 .tag(task.getTag())
                 .dueTime(task.getDueDate())
                 .daysToComplete(task.getDaysToComplete())

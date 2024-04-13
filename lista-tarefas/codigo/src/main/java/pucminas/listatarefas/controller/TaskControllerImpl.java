@@ -17,9 +17,9 @@ import pucminas.listatarefas.util.DTOConverter;
 import java.util.List;
 import java.util.UUID;
 
+import static pucminas.listatarefas.util.DTOConverter.convertToDTO;
 import static pucminas.listatarefas.util.constants.Constants.TASK_CONTROLLER;
 import static pucminas.listatarefas.util.constants.Constants.TASK_ENDPOINT;
-import static pucminas.listatarefas.util.DTOConverter.convertToDTO;
 
 @Slf4j(topic = TASK_CONTROLLER)
 @Validated
@@ -64,7 +64,6 @@ public class TaskControllerImpl implements TaskController {
 
     /**
      * Rota para criar uma nova task
-     * (
      *
      * @param task objeto do tipo Task
      * @return task criada
@@ -100,7 +99,7 @@ public class TaskControllerImpl implements TaskController {
         return ResponseEntity.ok().body(convertToDTO(updatedTask));
     }
 
-        /**
+    /**
      * Rota para atualizar o status de 'isCompleted' da task
      *
      * @param id id da task
