@@ -55,7 +55,7 @@ public class Constants {
 
     public static final String EXCEPTION_INTERCEPTOR = "Exception Interceptor";
 
-    public static final String NEXT_MSG = "Next %s";
+    public static final String STATUS_MGS01 = "Próxima %s";
 
-    public static final String IN_MSG = "In %s days";
+    public static final String STATUS_MGS02 = "Em %s dias";
 }

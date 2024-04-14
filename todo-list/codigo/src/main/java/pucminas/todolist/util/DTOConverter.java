@@ -7,6 +7,7 @@ import pucminas.todolist.dto.TaskDTO;
 import pucminas.todolist.entity.Task;
 
 import static java.util.Collections.singletonList;
+import static java.util.Objects.nonNull;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static pucminas.todolist.util.StatusVerifier.verifyStatus;
 import static pucminas.todolist.util.constants.Constants.TASK_ENDPOINT;
@@ -28,8 +29,8 @@ public class DTOConverter {
                 .priority(task.getPriority())
                 .status(verifyStatus(task))
                 .tag(task.getTag())
-                .dueDate(task.getDueDate())
-                .daysToComplete(task.getDaysToComplete())
+                .dueDate(nonNull(task.getDueDate()) ? task.getDueDate() : null)
+                .daysToComplete(nonNull(task.getDaysToComplete()) ? task.getDaysToComplete() : null)
                 .completedDate(task.getCompletedDate())
                 .isCompleted(task.isCompleted())
                 .links(singletonList(linkTo(TaskController.class).slash(TASK_ENDPOINT).slash(task.getId()).withSelfRel()))
