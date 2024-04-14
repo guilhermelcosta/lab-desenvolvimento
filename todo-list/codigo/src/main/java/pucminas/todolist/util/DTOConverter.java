@@ -28,7 +28,7 @@ public class DTOConverter {
                 .priority(task.getPriority())
                 .status(verifyStatus(task))
                 .tag(task.getTag())
-                .dueTime(task.getDueDate())
+                .dueDate(task.getDueDate())
                 .daysToComplete(task.getDaysToComplete())
                 .completedDate(task.getCompletedDate())
                 .isCompleted(task.isCompleted())
