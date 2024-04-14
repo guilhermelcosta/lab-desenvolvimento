@@ -38,8 +38,7 @@ public class TaskControllerImpl implements TaskController {
      */
     @Operation(summary = "Rota para encontrar uma task por id.",
             description = "Essa rota recebe um ID como parâmetro e retorna um objeto do tipo Task que corresponde a esse ID. " +
-                    "Caso não exista task com esse ID, a requisição informa que não existe task com esse ID."
-    )
+                    "Caso não exista task com esse ID, a requisição informa que não existe task com esse ID.")
     @GetMapping("/{id}")
     @Override
     public ResponseEntity<TaskDTO> findById(@PathVariable UUID id) {
