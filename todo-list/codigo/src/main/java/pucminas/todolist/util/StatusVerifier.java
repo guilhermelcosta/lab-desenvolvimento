@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import pucminas.todolist.entity.Task;
 
+import static java.lang.Math.abs;
 import static java.lang.String.format;
 import static java.time.LocalDate.now;
 import static java.time.Period.between;
@@ -21,13 +22,15 @@ public class StatusVerifier {
      * @param task objeto do tipo Task
      * @return status da tarefa
      */
-//    todo: ajustar para tarefas em datas já passadas
     public static @Nullable String verifyStatus(@NotNull Task task) {
         if (nonNull(task.getDueDate())) {
             int daysToComplete = between(now(), task.getDueDate().toLocalDate()).getDays();
-            return daysToComplete <= SEVEN
-                    ? format(STATUS_MGS01, dateMap.get(now().plusDays(daysToComplete).getDayOfWeek().toString().toLowerCase()))
-                    : format(STATUS_MGS02, daysToComplete);
+
+            if (daysToComplete >= ZERO && daysToComplete <= SEVEN)
+                return format(STATUS_MGS01, dateMap.get(now().plusDays(daysToComplete).getDayOfWeek().toString().toLowerCase()));
+            else if (daysToComplete < ZERO)
+                return format(STATUS_MGS03, abs(daysToComplete));
+            return format(STATUS_MGS02, daysToComplete);
         }
         return null;
     }

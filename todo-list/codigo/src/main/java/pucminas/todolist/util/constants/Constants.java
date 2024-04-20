@@ -5,6 +5,8 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class Constants {
 
+    public static final Integer ZERO = 0;
+
     public static final Integer SEVEN = 7;
 
     public static final String TASK_ENDPOINT = "task";
@@ -58,4 +60,6 @@ public class Constants {
     public static final String STATUS_MGS01 = "Próxima(o) %s";
 
     public static final String STATUS_MGS02 = "Em %s dias";
+
+    public static final String STATUS_MGS03 = "Há %s dias";
 }
