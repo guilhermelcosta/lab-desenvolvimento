@@ -1,0 +1,64 @@
+@startuml Diagrama de código
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+!define DEVICONS https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/devicons
+!define FONTAWESOME https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/font-awesome-5
+!include DEVICONS/msql_server.puml
+
+System_Boundary(app, "TodoListApplication (Main Class)") {
+    Container(task_model, "Task Model", "Java 21", "Camada de modelo de Task, define os atributos do objeto e seu mapeamento no JSON e banco de dados")
+    Container(task_service, "Task Service", "Service layer", "Camada de serviço, aplica regras do negócio")
+    Container(task_controller, "Task Controller", "Rest Controller", "Camada de controle para as rotas para criar, editar e deletar tarefas")
+    Container(repository, "Repository", "JPA", "Camada intermediária entre a camada de código e a de banco de dados")
+    ContainerDb(data_base, "Banco de dados", "PostgreSQL", "Armazena as informações da aplicação", $sprite="msql_server")
+
+    Rel(task_controller, findById_controller, "Requisição")
+    Rel(task_controller, listAll_controller, "Requisição")
+    Rel(task_controller, create_controller, "Requisição")
+    Rel(task_controller, update_controller, "Requisição")
+    Rel(task_controller, delete_controller, "Requisição")
+    Rel(task_controller, updateIsCompletedStatus_controller, "Requisição")
+
+    Rel(findById_controller,task_service , "Encaminha para")
+    Rel(listAll_controller,task_service , "Encaminha para")
+    Rel(create_controller,task_service , "Encaminha para")
+    Rel(update_controller,task_service , "Encaminha para")
+    Rel(delete_controller,task_service , "Encaminha para")
+    Rel(updateIsCompletedStatus_controller,task_service , "Encaminha para")
+
+    Rel(task_service, findById_service, "Executa")
+    Rel(task_service, listAll_service, "Executa")
+    Rel(task_service, create_service, "Executa")
+    Rel(task_service, update_service, "Executa")
+    Rel(task_service, delete_service, "Executa")
+    Rel(task_service, updateIsCompletedStatus_service, "Executa")
+
+    Rel(create_service, validateTaskFields, "Executa - método privado")
+    Rel(create_service, calculateTaskFields, "Executa - método privado")
+    Rel(validateTaskFields, isDueDateValid, "Executa - método privado")
+    Rel(validateTaskFields, hasConflictedDates, "Executa - método privado")
+    Rel(calculateTaskFields, calculateDueDate, "Executa - método privado")
+
+    Rel(update_service, validateTaskFields, "Executa - método privado")
+    Rel(update_service, calculateTaskFields, "Executa - método privado")
+    Rel(validateTaskFields, isDueDateValid, "Executa - método privado")
+    Rel(validateTaskFields, hasConflictedDates, "Executa - método privado")
+    Rel(calculateTaskFields, calculateDueDate, "Executa - método privado")
+
+    Rel(task_model, task_service, "Utiliza modelo")
+
+    Rel(findById_service, repository, "Acessa")
+    Rel(listAll_service, repository, "Acessa")
+    Rel(create_service, repository, "Acessa")
+    Rel(update_service, repository, "Acessa")
+    Rel(delete_service, repository, "Acessa")
+    Rel(updateIsCompletedStatus_service, repository, "Acessa")
+
+    Rel(repository, data_base, "Acessa informações", "JPA")
+    Rel(data_base, repository, "Retorna informações", "JPA")
+
+}
+
+LAYOUT_WITH_LEGEND()
+
+@enduml
