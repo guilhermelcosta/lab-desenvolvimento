@@ -26,7 +26,6 @@ public record TaskDTO(UUID id,
                       @JsonProperty(DAYS_TO_COMPLETE)
                       Integer daysToComplete,
                       @JsonProperty(COMPLETED_DATE_JSON)
-
                       LocalDateTime completedDate,
                       @JsonProperty(IS_COMPLETED_JSON)
                       boolean isCompleted,
