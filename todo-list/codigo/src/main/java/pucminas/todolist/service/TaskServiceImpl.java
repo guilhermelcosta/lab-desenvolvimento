@@ -64,8 +64,8 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public Task create(@NotNull Task task) {
         log.info(">>> TaskServiceImpl - create: criando tarefa");
-        validateTaskFields(task);
-        calculateTaskFields(task);
+        validateDateFields(task);
+        calculateDueDate(task);
         task.setId(null);
         task.setCompleted(false);
         task.setCreateDate(now());
@@ -84,8 +84,8 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public Task update(@NotNull Task task) {
         log.info(">>> TaskServiceImpl - update: atualizando tarefa");
-        validateTaskFields(task);
-        calculateTaskFields(task);
+        validateDateFields(task);
+        calculateDueDate(task);
         Task updatedTask = findById(task.getId());
         copyProperties(task, updatedTask, IGNORED_PROPERTIES);
         updatedTask.setLastModifiedDate(now());
@@ -137,37 +137,9 @@ public class TaskServiceImpl implements TaskService {
      *
      * @param task objeto do tipo Task
      */
-    private void validateTaskFields(Task task) {
-        isDueDateValid(task);
-        hasConflictedDates(task);
-    }
-
-    /**
-     * Faz cálculos dod campos da tarefa:
-     * - Data de conclusão da tarefa, a partir da quantidade de dias para conclusão
-     *
-     * @param task objeto do tipo Task
-     */
-    private void calculateTaskFields(Task task) {
-        calculateDueDate(task);
-    }
-
-    /**
-     * Valida se uma data é válida, ou seja, após a data atual
-     *
-     * @param task objeto do tipo Task
-     */
-    private void isDueDateValid(@NotNull Task task) {
+    private void validateDateFields(@NotNull Task task) {
         if (nonNull(task.getDueDate()) && task.getDueDate().isBefore(now()))
             throw new InvalidDueDateException(format(MSG_INVALID_DUE_DATE_EXCEPTION, formatDate(task.getDueDate()), formatDate(now())));
-    }
-
-    /**
-     * Valida se a tarefa possui data de conclusão E prazo para conclusão, só pode haver um dos dois
-     *
-     * @param task objeto do tipo Task
-     */
-    private void hasConflictedDates(@NotNull Task task) {
         if (nonNull(task.getDueDate()) && nonNull(task.getDaysToComplete()))
             throw new ConflictedTaskDateException(MSG_CONFLICTED_TASK_DATE_EXCEPTION);
     }
