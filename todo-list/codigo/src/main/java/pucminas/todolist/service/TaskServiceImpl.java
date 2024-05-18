@@ -50,8 +50,8 @@ public class TaskServiceImpl implements TaskService {
      * @return todas as tarefas cadastradas
      */
     @Override
-    public List<Task> listAll() {
-        log.info(">>> TaskServiceImpl - listAll: listando todas as tarefas");
+    public List<Task> findAll() {
+        log.info(">>> TaskServiceImpl - findAll: listando todas as tarefas");
         return taskRepository.findAll();
     }
 

@@ -55,9 +55,9 @@ public class TaskControllerImpl implements TaskController {
     @Operation(summary = "Rota para listar todas as tasks cadastradas.")
     @GetMapping
     @Override
-    public ResponseEntity<List<TaskDTO>> listAll() {
-        log.info(">>> TaskControllerImpl - listAll: recebendo requisição para listar todas as tasks cadastradas");
-        List<Task> taskList = taskService.listAll();
+    public ResponseEntity<List<TaskDTO>> findAll() {
+        log.info(">>> TaskControllerImpl - findAll: recebendo requisição para listar todas as tasks cadastradas");
+        List<Task> taskList = taskService.findAll();
         return ResponseEntity.ok().body(taskList.stream().map(DTOConverter::convertToDTO).toList());
     }
 

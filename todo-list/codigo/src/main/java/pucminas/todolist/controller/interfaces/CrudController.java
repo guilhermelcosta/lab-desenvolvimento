@@ -18,7 +18,7 @@ public interface CrudController<I, O> {
     ResponseEntity<O> findById(@PathVariable UUID id);
 
     @GetMapping
-    ResponseEntity<List<O>> listAll();
+    ResponseEntity<List<O>> findAll();
 
     @PostMapping
     ResponseEntity<O> create(@RequestBody I i);

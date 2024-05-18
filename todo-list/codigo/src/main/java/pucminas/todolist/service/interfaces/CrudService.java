@@ -12,7 +12,7 @@ public interface CrudService<T> {
 
     T findById(UUID id);
 
-    List<T> listAll();
+    List<T> findAll();
 
     T create(T t);
 
