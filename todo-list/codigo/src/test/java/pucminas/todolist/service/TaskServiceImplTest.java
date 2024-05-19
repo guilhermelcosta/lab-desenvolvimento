@@ -186,7 +186,7 @@ public class TaskServiceImplTest {
     }
 
     @Test
-    @DisplayName("update: ignore defined properties -> return updated task without updating defined properties")
+    @DisplayName("update: ignore defined properties -> return updated task without updating defined ignored properties")
     void update_ignoreDefinedProperties_returnUpdatedTaskWithoutUpdatingDefinedProperties() {
         // Given
         Task taskPayloadWithModifiedIgnoredProperties = taskMockWithDueDate;
