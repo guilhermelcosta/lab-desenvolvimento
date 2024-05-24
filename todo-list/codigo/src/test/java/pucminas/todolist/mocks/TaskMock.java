@@ -28,7 +28,7 @@ public class TaskMock {
     }
 
         /**
-     * @return objeto mock de Task com dias para conclusão
+     * @return objeto mock de Task com quantidade dias para conclusão
      */
     public static Task getTaskMockWithDaysToComplete() {
         return Task.builder()
