@@ -20,6 +20,8 @@ public class TaskConstants {
 
     public static String TITLE = "Title";
 
+    public static String TITLE_VER_2 = "Title - ver.2";
+
     public static String DESCRIPTION = "Description";
 
     public static Priority PRIORITY = LOW;
@@ -38,5 +40,4 @@ public class TaskConstants {
 
     public static LocalDateTime LAST_MODIFIED_DATE = now();
 
-    public static boolean IS_COMPLETED = true;
 }

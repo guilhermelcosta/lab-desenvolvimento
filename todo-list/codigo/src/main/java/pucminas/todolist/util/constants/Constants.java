@@ -66,4 +66,5 @@ public class Constants {
     public static final String STATUS_MGS02 = "Em %s dias";
 
     public static final String STATUS_MGS03 = "Há %s dias";
+
 }

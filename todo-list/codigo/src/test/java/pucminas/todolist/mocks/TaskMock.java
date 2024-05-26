@@ -23,7 +23,7 @@ public class TaskMock {
                 .completedDate(COMPLETED_DATE)
                 .createDate(CREATE_DATE)
                 .lastModifiedDate(LAST_MODIFIED_DATE)
-                .isCompleted(IS_COMPLETED)
+                .isCompleted(false)
                 .build();
     }
 
@@ -33,7 +33,7 @@ public class TaskMock {
     public static Task getTaskMockWithDaysToComplete() {
         return Task.builder()
                 .id(ID_MOCK)
-                .title(TITLE)
+                .title(TITLE_VER_2)
                 .description(DESCRIPTION)
                 .priority(PRIORITY)
                 .tag(TAG)
@@ -41,7 +41,7 @@ public class TaskMock {
                 .completedDate(COMPLETED_DATE)
                 .createDate(CREATE_DATE)
                 .lastModifiedDate(LAST_MODIFIED_DATE)
-                .isCompleted(IS_COMPLETED)
+                .isCompleted(false)
                 .build();
     }
 
@@ -62,7 +62,7 @@ public class TaskMock {
                 .completedDate(COMPLETED_DATE)
                 .createDate(CREATE_DATE)
                 .lastModifiedDate(LAST_MODIFIED_DATE)
-                .isCompleted(IS_COMPLETED)
+                .isCompleted(false)
                 .build();
     }
 
@@ -82,7 +82,7 @@ public class TaskMock {
                 .completedDate(COMPLETED_DATE)
                 .createDate(CREATE_DATE)
                 .lastModifiedDate(LAST_MODIFIED_DATE)
-                .isCompleted(IS_COMPLETED)
+                .isCompleted(true)
                 .build();
     }
 }
