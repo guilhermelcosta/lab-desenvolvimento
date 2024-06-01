@@ -1,0 +1,41 @@
+@startuml
+title Diagrama de Sequencia para create
+
+actor Usuário
+Boundary Frontend
+Boundary SpringBoot
+Control taskController
+Entity Task
+Participant taskService
+Participant taskRepository
+Database TodoList
+
+Usuário -> Frontend: Envia nova tarefa
+activate Usuário
+activate Frontend
+Frontend -> SpringBoot: POST /todo-list/task {task}
+activate SpringBoot
+SpringBoot -> taskController: create(task)
+activate taskController
+taskController -> taskService: create(task)
+activate taskService
+taskService -> taskRepository: save(task)
+activate taskRepository
+taskRepository -> TodoList: INSERT INTO Tasks VALUES(task)
+TodoList --> taskRepository: Task
+taskRepository --> taskService: Task
+deactivate taskRepository
+taskService --> taskController: Task
+deactivate taskService
+taskController -> DTOConverter: convertToDTO(Task)
+activate DTOConverter
+DTOConverter --> taskController: TaskDTO
+deactivate DTOConverter
+taskController --> SpringBoot: ResponseEntity.ok(TaskDTO)
+deactivate taskController
+SpringBoot --> Frontend: ResponseEntity.ok(TaskDTO)
+deactivate SpringBoot
+Frontend --> Usuário: Exibe tarefa criada
+deactivate Frontend
+deactivate Usuário
+@enduml

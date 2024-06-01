@@ -14,7 +14,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static pucminas.todolist.mocks.TaskMock.getTaskMockWithDueDate;
 import static pucminas.todolist.util.constants.Constants.*;
 
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
 public class TaskRepositoryTest {

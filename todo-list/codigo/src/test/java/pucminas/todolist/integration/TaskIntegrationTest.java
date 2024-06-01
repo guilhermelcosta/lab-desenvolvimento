@@ -161,7 +161,7 @@ public class TaskIntegrationTest {
     @Test
     @Order(5)
     @DisplayName("delete: task deleted -> should return no content")
-    void delete_taskDeleted_shouldReturnNoContent() throws JsonProcessingException {
+    void delete_taskDeleted_shouldReturnNoContent() {
         // When e Then
         RestAssured.delete(concat(contextPath, "/", TASK_ENDPOINT, "/", taskCreated.id().toString()))
                 .then()

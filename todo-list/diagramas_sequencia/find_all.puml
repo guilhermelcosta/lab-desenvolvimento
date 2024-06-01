@@ -1,0 +1,41 @@
+@startuml
+title Diagrama de Sequencia para findAll
+
+actor Usuário
+Boundary Frontend
+Boundary SpringBoot
+Control taskController
+Entity Task
+Participant taskService
+Participant taskRepository
+Database TodoList
+
+Usuário -> Frontend: Solicita todas as tarefas
+activate Usuário
+activate Frontend
+Frontend -> SpringBoot: GET /todo-list/task
+activate SpringBoot
+SpringBoot -> taskController: findAll()
+activate taskController
+taskController -> taskService: findAll()
+activate taskService
+taskService -> taskRepository: findAll()
+activate taskRepository
+taskRepository -> TodoList: SELECT * FROM Tasks
+TodoList --> taskRepository: List<Task>
+taskRepository --> taskService: List<Task>
+deactivate taskRepository
+taskService --> taskController: List<Task>
+deactivate taskService
+taskController -> DTOConverter: convertToDTO(Task)
+activate DTOConverter
+DTOConverter --> taskController: List<TaskDTO>
+deactivate DTOConverter
+taskController --> SpringBoot: ResponseEntity.ok(List<TaskDTO>)
+deactivate taskController
+SpringBoot --> Frontend: ResponseEntity.ok(List<TaskDTO>)
+deactivate SpringBoot
+Frontend --> Usuário: Exibe lista de tarefas
+deactivate Frontend
+deactivate Usuário
+@enduml

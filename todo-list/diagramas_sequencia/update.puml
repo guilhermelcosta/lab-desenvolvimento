@@ -1,0 +1,47 @@
+@startuml
+title Diagrama de Sequencia para update
+
+actor Usuário
+Boundary Frontend
+Boundary SpringBoot
+Control taskController
+Entity Task
+Participant taskService
+Participant taskRepository
+Database TodoList
+
+Usuário -> Frontend: Envia atualização de tarefa
+activate Usuário
+activate Frontend
+Frontend -> SpringBoot: PUT /todo-list/task/{id} {task}
+activate SpringBoot
+SpringBoot -> taskController: update(id, task)
+activate taskController
+taskController -> taskService: update(id, task)
+activate taskService
+taskService -> taskRepository: findById(id)
+activate taskRepository
+taskRepository -> TodoList: SELECT * FROM Tasks WHERE id = {id}
+TodoList --> taskRepository: Task
+taskRepository --> taskService: Task
+deactivate taskRepository
+taskService -> taskRepository: save(task)
+activate taskRepository
+taskRepository -> TodoList: UPDATE Tasks SET task WHERE id = {id}
+TodoList --> taskRepository: Task
+taskRepository --> taskService: Task
+deactivate taskRepository
+taskService --> taskController: Task
+deactivate taskService
+taskController -> DTOConverter: convertToDTO(Task)
+activate DTOConverter
+DTOConverter --> taskController: TaskDTO
+deactivate DTOConverter
+taskController --> SpringBoot: ResponseEntity.ok(TaskDTO)
+deactivate taskController
+SpringBoot --> Frontend: ResponseEntity.ok(TaskDTO)
+deactivate SpringBoot
+Frontend --> Usuário: Exibe tarefa atualizada
+deactivate Frontend
+deactivate Usuário
+@enduml

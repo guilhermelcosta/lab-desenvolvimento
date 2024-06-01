@@ -28,7 +28,6 @@ import static pucminas.todolist.util.TaskConstants.ID_MOCK;
 import static pucminas.todolist.util.constants.Constants.FIVE;
 import static pucminas.todolist.util.constants.Constants.SEVEN;
 
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @ExtendWith(SpringExtension.class)
 public class TaskServiceImplTest {
 
@@ -66,7 +65,6 @@ public class TaskServiceImplTest {
     }
 
     @Test
-    @Order(2)
     @DisplayName("findById: id not found -> throw EntityNotFoundException")
     void findById_idNotFound_throwEntityNotFoundException() {
         // Given

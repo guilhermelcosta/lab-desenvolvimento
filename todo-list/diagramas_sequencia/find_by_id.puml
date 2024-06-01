@@ -1,0 +1,41 @@
+@startuml
+title Diagrama de Sequencia para findById
+
+actor Usuário
+Boundary Frontend
+Boundary SpringBoot
+Control taskController
+Entity Task
+Participant taskService
+Participant taskRepository
+Database TodoList
+
+Usuário -> Frontend: Solicita tarefa por ID
+activate Usuário
+activate Frontend
+Frontend -> SpringBoot: GET /todo-list/task/{id}
+activate SpringBoot
+SpringBoot -> taskController: findById(id)
+activate taskController
+taskController -> taskService: findById(id)
+activate taskService
+taskService -> taskRepository: findById(id)
+activate taskRepository
+taskRepository -> TodoList: SELECT * FROM Tasks WHERE id = {id}
+TodoList --> taskRepository: Task
+taskRepository --> taskService: Task
+deactivate taskRepository
+taskService --> taskController: Task
+deactivate taskService
+taskController -> DTOConverter: convertToDTO(Task)
+activate DTOConverter
+DTOConverter --> taskController: TaskDTO
+deactivate DTOConverter
+taskController --> SpringBoot: ResponseEntity.ok(TaskDTO)
+deactivate taskController
+SpringBoot --> Frontend: ResponseEntity.ok(TaskDTO)
+deactivate SpringBoot
+Frontend --> Usuário: Exibe tarefa
+deactivate Frontend
+deactivate Usuário
+@enduml

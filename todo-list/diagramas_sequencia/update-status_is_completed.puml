@@ -1,0 +1,47 @@
+@startuml
+title Diagrama de Sequencia para updateIsCompletedStatus
+
+actor Usuário
+Boundary Frontend
+Boundary SpringBoot
+Control taskController
+Entity Task
+Participant taskService
+Participant taskRepository
+Database TodoList
+
+Usuário -> Frontend: Atualiza status de conclusão
+activate Usuário
+activate Frontend
+Frontend -> SpringBoot: PATCH /todo-list/task/{id}
+activate SpringBoot
+SpringBoot -> taskController: updateIsCompletedStatus(id)
+activate taskController
+taskController -> taskService: updateIsCompletedStatus(id)
+activate taskService
+taskService -> taskRepository: findById(id)
+activate taskRepository
+taskRepository -> TodoList: SELECT * FROM Tasks WHERE id = {id}
+TodoList --> taskRepository: Task
+taskRepository --> taskService: Task
+deactivate taskRepository
+taskService -> taskRepository: save(task)
+activate taskRepository
+taskRepository -> TodoList: UPDATE Tasks SET isCompleted = !isCompleted WHERE id = {id}
+TodoList --> taskRepository: Task
+taskRepository --> taskService: Task
+deactivate taskRepository
+taskService --> taskController: Task
+deactivate taskService
+taskController -> DTOConverter: convertToDTO(Task)
+activate DTOConverter
+DTOConverter --> taskController: TaskDTO
+deactivate DTOConverter
+taskController --> SpringBoot: ResponseEntity.ok(TaskDTO)
+deactivate taskController
+SpringBoot --> Frontend: ResponseEntity.ok(TaskDTO)
+deactivate SpringBoot
+Frontend --> Usuário: Exibe status atualizado
+deactivate Frontend
+deactivate Usuário
+@enduml
