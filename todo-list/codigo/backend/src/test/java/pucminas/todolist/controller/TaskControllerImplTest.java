@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -30,8 +31,9 @@ import static pucminas.todolist.util.TaskConstants.ID_MOCK;
 import static pucminas.todolist.util.constants.Constants.TASK_ENDPOINT;
 import static pucminas.todolist.util.constants.Constants.ZERO;
 
-@ExtendWith(MockitoExtension.class)
 @WebMvcTest
+@ExtendWith(MockitoExtension.class)
+@AutoConfigureMockMvc(addFilters = false)
 public class TaskControllerImplTest {
 
     @Autowired
@@ -57,10 +59,10 @@ public class TaskControllerImplTest {
         given(taskService.findById(ID_MOCK)).willReturn(taskMock);
 
         // When
-        ResultActions respostaAPI = mockMvc.perform(get(concat("/", TASK_ENDPOINT, "/", ID_MOCK.toString())));
+        ResultActions apiResponse = mockMvc.perform(get(concat("/", TASK_ENDPOINT, "/", ID_MOCK.toString())));
 
         //Then
-        respostaAPI.andDo(print())
+        apiResponse.andDo(print())
                 .andExpect(status().isOk());
     }
 
@@ -72,10 +74,10 @@ public class TaskControllerImplTest {
         given(taskService.findAll()).willReturn(tasks);
 
         // When
-        ResultActions respostaAPI = mockMvc.perform(get(concat("/", TASK_ENDPOINT)));
+        ResultActions apiResponse = mockMvc.perform(get(concat("/", TASK_ENDPOINT)));
 
         //Then
-        respostaAPI.andDo(print())
+        apiResponse.andDo(print())
                 .andExpect(status().isOk());
     }
 
@@ -87,12 +89,12 @@ public class TaskControllerImplTest {
                 .willAnswer((invocation) -> invocation.getArgument(ZERO));
 
         // When
-        ResultActions respostaAPI = mockMvc.perform(post(concat("/", TASK_ENDPOINT))
+        ResultActions apiResponse = mockMvc.perform(post(concat("/", TASK_ENDPOINT))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(taskMock)));
 
         //Then
-        respostaAPI.andDo(print())
+        apiResponse.andDo(print())
                 .andExpect(status().isOk());
     }
 
@@ -104,12 +106,12 @@ public class TaskControllerImplTest {
                 .willAnswer((invocation) -> invocation.getArgument(ZERO));
 
         // When
-        ResultActions respostaAPI = mockMvc.perform(put(concat("/", TASK_ENDPOINT, "/", ID_MOCK.toString()))
+        ResultActions apiResponse = mockMvc.perform(put(concat("/", TASK_ENDPOINT, "/", ID_MOCK.toString()))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(taskMock)));
 
         //Then
-        respostaAPI.andDo(print())
+        apiResponse.andDo(print())
                 .andExpect(status().isOk());
     }
 
@@ -121,12 +123,12 @@ public class TaskControllerImplTest {
                 .willReturn(taskMock);
 
         // When
-        ResultActions respostaAPI = mockMvc.perform(patch(concat("/", TASK_ENDPOINT, "/{id}"), ID_MOCK.toString())
+        ResultActions apiResponse = mockMvc.perform(patch(concat("/", TASK_ENDPOINT, "/{id}"), ID_MOCK.toString())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(taskMock)));
 
         // Then
-        respostaAPI.andDo(print())
+        apiResponse.andDo(print())
                 .andExpect(status().isOk());
     }
 
@@ -137,9 +139,9 @@ public class TaskControllerImplTest {
         willDoNothing().given(taskService).delete(ID_MOCK);
 
         // When
-        ResultActions respostaAPI = mockMvc.perform(delete(concat("/", TASK_ENDPOINT, "/{id}"), ID_MOCK.toString()));
+        ResultActions apiResponse = mockMvc.perform(delete(concat("/", TASK_ENDPOINT, "/{id}"), ID_MOCK.toString()));
         //Then
-        respostaAPI
+        apiResponse
                 .andDo(print())
                 .andExpect(status().isNoContent());
     }
