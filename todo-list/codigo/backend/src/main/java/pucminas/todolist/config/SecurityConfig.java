@@ -34,9 +34,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(request -> {
-                    request.anyRequest().permitAll();
-                })
+                .authorizeHttpRequests(request -> request.anyRequest().permitAll())
                 .build();
     }
 
@@ -52,7 +50,7 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         config.setAllowCredentials(true);
-        config.setAllowedOriginPatterns(singletonList("*"));
+        config.setAllowedOriginPatterns(singletonList("http://localhost:3000"));
         config.addAllowedHeader("*");
         config.setAllowedMethods(ALLOWED_METHODS);
 

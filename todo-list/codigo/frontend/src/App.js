@@ -1,5 +1,5 @@
 import './App.css';
-import ListaTarefas from "./componentes/ListaTarefas";
+import ListaTarefas from "./components/ListaTarefas";
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 
 function App() {
