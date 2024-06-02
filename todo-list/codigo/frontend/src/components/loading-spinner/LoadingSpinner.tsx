@@ -1,12 +1,12 @@
 import React from 'react';
 import {Triangle} from "react-loader-spinner";
+import styles from './LoadingSpinner.module.css';
 
 const LoadingSpinner: React.FC = () => {
     return (
-        // todo: passar estilo para arquivo css
-        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh'}}>
+        <div className={styles.spinnerContainer}>
             <Triangle
-                color={'blue'}
+                color={'var(--primary-blue)'}
             />
         </div>
     );
