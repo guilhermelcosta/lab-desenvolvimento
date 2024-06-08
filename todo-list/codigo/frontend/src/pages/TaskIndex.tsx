@@ -4,6 +4,8 @@ import {Task} from "../interfaces/Task";
 import {MessageConstants} from "../utils/MessageConstants";
 import LoadingSpinner from "../components/loading-spinner/LoadingSpinner";
 import Snackbar from '@mui/material/Snackbar';
+import styles from './TaskIndex.module.css'
+import {Checkbox} from "@mui/material";
 
 
 const TaskIndex: React.FC = () => {
@@ -41,14 +43,28 @@ const TaskIndex: React.FC = () => {
     }
 
     return (
-        <div>
-            <h1>Página inicial</h1>
+        <div className={styles.taskContainer}>
             <ul>
+                <button>+</button>
                 {tasks.map(task => (
-                    <li key={task.id}>
-                        <h2>{task.title}</h2>
-                        <p>{task.description}</p>
-                        <p>{task.status}</p>
+                    <li className={styles.taskCard} key={task.id}>
+                        <Checkbox/>
+                        <div className={styles.taskTitleAndDescription}>
+                            <h2>{task.title}</h2>
+                            <p>{task.description}</p>
+                        </div>
+                        <p className={styles.taskInfo}>
+                            <span>{task.status}</span>
+                        </p>
+                        <p className={styles.taskInfo}>
+                            <span>{task.priority}</span>
+                        </p>
+                        {
+                            task.tag &&
+                            <p className={styles.taskInfo}>
+                                <span>{task.tag}</span>
+                            </p>
+                        }
                     </li>
                 ))}
             </ul>

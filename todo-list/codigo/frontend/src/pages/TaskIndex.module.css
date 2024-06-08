@@ -1,0 +1,53 @@
+.taskContainer {
+    display: flex;
+    justify-content: center;
+    min-width: 40rem;
+}
+
+.taskCard {
+    display: flex;
+    align-items: center;
+    min-width: 40rem;
+    margin: 1rem 0;
+    padding: 1rem;
+    border-radius: 0.3rem;
+    background-color: lightgrey;
+}
+
+.taskTitleAndDescription {
+    display: flex;
+    flex-direction: column;
+    min-width: 15rem;
+    min-height: 3rem;
+}
+
+.taskTitleAndDescription p {
+    padding-top: 0.5rem;
+}
+
+.taskInfo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 10rem;
+    min-height: 3rem;
+    margin: 0 0.5rem;
+}
+
+.taskInfo span {
+    padding: 0.5rem;
+    border-radius: 0.3rem;
+}
+
+.taskInfo:first-of-type span {
+    background: none;
+}
+
+.taskInfo:nth-of-type(2) span {
+    background-color: green;
+}
+
+.taskInfo:nth-of-type(3) span {
+    background-color: red;
+}
+
