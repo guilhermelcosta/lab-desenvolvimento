@@ -1,5 +1,11 @@
 :root {
     --primary-blue: blue;
-    --primary-dark: #21272aff;
-    --primary-green: greenyellow;
+    --primary-dark: #21272AFF;
+    --primary-light: antiquewhite;
+    --primary-green: #90DE1B;
+    --tag: purple;
+    --no-priority: white;
+    --low-priority: lightgreen;
+    --medium-priority: lightyellow;
+    --high-priority: lightcoral;
 }

@@ -14,10 +14,10 @@
     min-width: 40rem;
     margin: 1rem 0;
     padding: 1rem;
-    border-radius: 0.3rem;
 }
 
 .taskCard:before {
+    position: absolute;
     content: '.';
     color: var(--primary-dark);
 
@@ -27,21 +27,20 @@
     content: '.';
     background-color: var(--primary-green);
     color: var(--primary-green);
-    height: 100px;
-
-    /* Adicione outros estilos necessários para o pseudo-elemento aqui */
+    height: 50px;
 }
-
 
 .taskTitleAndDescription {
     display: flex;
     flex-direction: column;
     min-width: 15rem;
     min-height: 3rem;
+    color: var(--primary-green);
 }
 
 .taskTitleAndDescription p {
     padding-top: 0.5rem;
+    color: var(--primary-light);
 }
 
 .taskInfo {
@@ -54,7 +53,7 @@
 }
 
 .taskInfo span {
-    color: deeppink;
+    color: var(--primary-light);
     padding: 0.5rem;
     border-radius: 0.3rem;
 }
@@ -63,12 +62,8 @@
     background: none;
 }
 
-.taskInfo:nth-of-type(2) span {
-    background-color: green;
-}
-
 .taskInfo:nth-of-type(3) span {
-    background-color: red;
+    background-color: var(--tag);
 }
 
 .pagination {
@@ -102,5 +97,25 @@
     background-color: var(--primary-green);
     color: var(--primary-dark);
     font-weight: bold;
+}
+
+.customCheckbox {
+    color: var(--primary-green) !important;
+}
+
+.noPriority {
+    background-color: var(--no-priority);
+}
+
+.lowPriority {
+    background-color: var(--low-priority);
+}
+
+.mediumPriority {
+    background-color: var(--medium-priority);
+}
+
+.highPriority {
+    background-color: var(--high-priority);
 }
 

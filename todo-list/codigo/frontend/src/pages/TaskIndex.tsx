@@ -1,15 +1,16 @@
-import React, {useEffect, useState} from 'react';
-import {getAllTasks} from '../services/TaskService';
-import {Task} from "../interfaces/Task";
-import {MessageConstants} from "../utils/MessageConstants";
+import React, { useEffect, useState } from 'react';
+import { getAllTasks } from '../services/TaskService';
+import { Task } from "../interfaces/Task";
 import LoadingSpinner from "../components/loading-spinner/LoadingSpinner";
 import Snackbar from '@mui/material/Snackbar';
 import styles from './TaskIndex.module.css';
-import {Checkbox} from "@mui/material";
+import { Checkbox } from "@mui/material";
 import ReactPaginate from 'react-paginate';
-import {NumberConstants} from "../utils/NumberConstants";
+import {TextConstants} from "../utils/constants/TextConstants";
+import {NumberConstants} from "../utils/constants/NumberConstants";
 
 const TaskIndex: React.FC = () => {
+
     const [open, setOpen] = React.useState(false);
     const [tasks, setTasks] = useState<Task[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
@@ -38,15 +39,23 @@ const TaskIndex: React.FC = () => {
         setCurrentPage(data.selected);
     };
 
+    const getPriorityClass = (priority: string): string => {
+        return TextConstants.PRIORITY_NAMES[priority]?.STYLE || '';
+    };
+
+    const getPriorityText = (priority: string): string => {
+        return TextConstants.PRIORITY_NAMES[priority]?.NAME || priority;
+    };
+
     if (loading) {
-        return <LoadingSpinner/>;
+        return <LoadingSpinner />;
     }
 
     if (error) {
         return (
             <Snackbar
                 open={open}
-                message={MessageConstants.ERROR_MESSAGES.failedToFetchTasks}
+                message={TextConstants.ERROR_MESSAGES.failedToFetchTasks}
             />
         );
     }
@@ -57,7 +66,7 @@ const TaskIndex: React.FC = () => {
                 <button>+</button>
                 {currentTasks.map(task => (
                     <li className={styles.taskCard} key={task.id}>
-                        <Checkbox/>
+                        <Checkbox className={styles.customCheckbox} />
                         <div className={styles.taskTitleAndDescription}>
                             <h2>{task.title}</h2>
                             <p>{task.description}</p>
@@ -66,7 +75,9 @@ const TaskIndex: React.FC = () => {
                             <span>{task.status}</span>
                         </p>
                         <p className={styles.taskInfo}>
-                            <span>{task.priority}</span>
+                            <span className={getPriorityClass(task.priority)}>
+                                {getPriorityText(task.priority)}
+                            </span>
                         </p>
                         {task.tag && (
                             <p className={styles.taskInfo}>
