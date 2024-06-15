@@ -4,16 +4,21 @@ import {Task} from "../interfaces/Task";
 import {MessageConstants} from "../utils/MessageConstants";
 import LoadingSpinner from "../components/loading-spinner/LoadingSpinner";
 import Snackbar from '@mui/material/Snackbar';
-import styles from './TaskIndex.module.css'
+import styles from './TaskIndex.module.css';
 import {Checkbox} from "@mui/material";
-
+import ReactPaginate from 'react-paginate';
+import {NumberConstants} from "../utils/NumberConstants";
 
 const TaskIndex: React.FC = () => {
-
     const [open, setOpen] = React.useState(false);
     const [tasks, setTasks] = useState<Task[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<boolean | null>(null);
+    const [currentPage, setCurrentPage] = useState(NumberConstants.ZERO);
+    const tasksPerPage: number = NumberConstants.FIVE;
+    const offset: number = currentPage * tasksPerPage;
+    const currentTasks: Task[] = tasks.slice(offset, offset + tasksPerPage);
+    const pageCount: number = Math.ceil(tasks.length / tasksPerPage);
 
     useEffect((): void => {
         const fetchTasks = async (): Promise<void> => {
@@ -28,6 +33,10 @@ const TaskIndex: React.FC = () => {
         };
         fetchTasks();
     }, []);
+
+    const handlePageClick = (data: { selected: number }): void => {
+        setCurrentPage(data.selected);
+    };
 
     if (loading) {
         return <LoadingSpinner/>;
@@ -46,7 +55,7 @@ const TaskIndex: React.FC = () => {
         <div className={styles.taskContainer}>
             <ul>
                 <button>+</button>
-                {tasks.map(task => (
+                {currentTasks.map(task => (
                     <li className={styles.taskCard} key={task.id}>
                         <Checkbox/>
                         <div className={styles.taskTitleAndDescription}>
@@ -59,15 +68,25 @@ const TaskIndex: React.FC = () => {
                         <p className={styles.taskInfo}>
                             <span>{task.priority}</span>
                         </p>
-                        {
-                            task.tag &&
+                        {task.tag && (
                             <p className={styles.taskInfo}>
                                 <span>{task.tag}</span>
                             </p>
-                        }
+                        )}
                     </li>
                 ))}
             </ul>
+            <ReactPaginate
+                previousLabel={'<'}
+                nextLabel={'>'}
+                breakLabel={'...'}
+                pageCount={pageCount}
+                marginPagesDisplayed={2}
+                pageRangeDisplayed={5}
+                onPageChange={handlePageClick}
+                containerClassName={styles.pagination}
+                activeClassName={styles.active}
+            />
         </div>
     );
 };

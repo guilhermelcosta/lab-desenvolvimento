@@ -1,7 +1,11 @@
+@import "../assets/Pallet.module.css";
+
 .taskContainer {
     display: flex;
-    justify-content: center;
-    min-width: 40rem;
+    margin-top: 10rem;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
 }
 
 .taskCard {
@@ -11,8 +15,23 @@
     margin: 1rem 0;
     padding: 1rem;
     border-radius: 0.3rem;
-    background-color: lightgrey;
 }
+
+.taskCard:before {
+    content: '.';
+    color: var(--primary-dark);
+
+}
+
+.taskCard:hover:before {
+    content: '.';
+    background-color: var(--primary-green);
+    color: var(--primary-green);
+    height: 100px;
+
+    /* Adicione outros estilos necessários para o pseudo-elemento aqui */
+}
+
 
 .taskTitleAndDescription {
     display: flex;
@@ -35,6 +54,7 @@
 }
 
 .taskInfo span {
+    color: deeppink;
     padding: 0.5rem;
     border-radius: 0.3rem;
 }
@@ -49,5 +69,38 @@
 
 .taskInfo:nth-of-type(3) span {
     background-color: red;
+}
+
+.pagination {
+    position: absolute;
+    top: 50rem;
+    display: flex;
+    list-style: none;
+    padding: 0;
+}
+
+.pagination li {
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.pagination li a {
+    text-decoration: none;
+    color: var(--primary-green);
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.pagination li.active a {
+    background-color: var(--primary-green);
+    color: var(--primary-dark);
+    font-weight: bold;
+}
+
+.pagination li a:hover {
+    background-color: var(--primary-green);
+    color: var(--primary-dark);
+    font-weight: bold;
 }
 

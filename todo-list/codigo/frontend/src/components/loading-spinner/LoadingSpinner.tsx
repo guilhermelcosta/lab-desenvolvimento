@@ -6,7 +6,7 @@ const LoadingSpinner: React.FC = () => {
     return (
         <div className={styles.spinnerContainer}>
             <Triangle
-                color={'var(--primary-blue)'}
+                color={'var(--primary-green)'}
             />
         </div>
     );
