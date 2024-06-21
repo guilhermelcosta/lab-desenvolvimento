@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {createTask, deleteTask, getAllTasks, updateTask} from '../../services/TaskService';
+import {createTask, deleteTask, getAllTasks, updateIsCompletedTask, updateTask} from '../../services/TaskService';
 import {Task} from "../../interfaces/Task";
 import LoadingSpinner from "../../components/loading-spinner/LoadingSpinner";
 import Snackbar from '@mui/material/Snackbar';
 import styles from './TaskIndex.module.css';
-import {Checkbox, IconButton, Modal, Box, TextField, Button, MenuItem, Select} from "@mui/material";
+import {Box, Button, Checkbox, IconButton, MenuItem, Modal, Select, TextField} from "@mui/material";
 import ReactPaginate from 'react-paginate';
 import {TextConstants} from "../../utils/constants/TextConstants";
 import {NumberConstants} from "../../utils/constants/NumberConstants";
@@ -24,7 +24,7 @@ const TaskIndex: React.FC = () => {
         description: '',
         priority: 'NO_PRIORITY',
         tag: 'SAUDE',
-        days_to_complete: null,
+        days_to_complete: '',
         due_date: '',
         status: '',
     });
@@ -32,8 +32,9 @@ const TaskIndex: React.FC = () => {
     const [dateOption, setDateOption] = useState<string>('days_to_complete');
     const tasksPerPage: number = NumberConstants.FIVE;
     const offset: number = currentPage * tasksPerPage;
-    const currentTasks: Task[] = tasks.slice(offset, offset + tasksPerPage);
-    const pageCount: number = Math.ceil(tasks.length / tasksPerPage);
+    const filteredTasks = tasks.filter(task => !task.is_completed); // Filtra as tarefas que não estão completas
+    const currentTasks: Task[] = filteredTasks.slice(offset, offset + tasksPerPage);
+    const pageCount: number = Math.ceil(filteredTasks.length / tasksPerPage);
 
     useEffect((): void => {
         fetchTasks();
@@ -42,6 +43,7 @@ const TaskIndex: React.FC = () => {
     const fetchTasks = async (): Promise<void> => {
         try {
             const tasksFound: Task[] = await getAllTasks();
+            tasksFound.sort((a, b) => a.title.localeCompare(b.title));
             setTasks(tasksFound);
             setLoading(false);
         } catch (err) {
@@ -97,7 +99,7 @@ const TaskIndex: React.FC = () => {
                 description: '',
                 priority: 'NO_PRIORITY',
                 tag: 'SAUDE',
-                days_to_complete: null,
+                days_to_complete: '',
                 due_date: '',
                 status: '',
             });
@@ -154,19 +156,48 @@ const TaskIndex: React.FC = () => {
         );
     }
 
+    const handleTaskCompletion = async (task: Task) => {
+        try {
+            task.is_completed = true;
+            setSnackbarMessage('Tarefa concluída com sucesso');
+            await updateIsCompletedTask(task.id);
+            await fetchTasks();
+        } catch (error) {
+            setSnackbarMessage('Falha ao atualizar status da tarefa');
+            setOpen(true);
+        }
+    };
+
+    function handleDueDate(value: string) {
+        var dataObjeto = new Date(value);
+        var dia = dataObjeto.getDate();
+        var mes = dataObjeto.getMonth() + 1; // Lembrando que o mês em JavaScript é baseado em zero (janeiro é 0)
+        var ano = dataObjeto.getFullYear();
+        var horas = dataObjeto.getHours();
+        var minutos = dataObjeto.getMinutes();
+        var segundos = dataObjeto.getSeconds();
+        var dataFormatada = dia + "/" + mes + "/" + ano + " " + horas + ":" + minutos + ":" + segundos;
+        newTask.due_date = dataFormatada;
+
+    }
+
     return (
         <div className={styles.taskContainer}>
             <ul>
                 <IconButton
-                    onClick={() => handleOpenModal()}
-                    className={styles.addButton}>
-                    <FontAwesomeIcon icon={faPlus}/>
+                    onClick={() => handleOpenModal()}>
+                    <FontAwesomeIcon icon={faPlus} className={styles.addButton}/>
                 </IconButton>
 
                 {currentTasks.map(task => (
-                    <li className={styles.taskCard} key={task.id} onClick={() => handleOpenModal(task)}>
-                        <Checkbox className={styles.customCheckbox}/>
-                        <div className={styles.taskTitleAndDescription}>
+                    <li key={task.id}
+                        className={`${styles.taskCard} ${task.is_completed ? 'completed' : ''}`}>
+                        <Checkbox
+                            className={styles.customCheckbox}
+                            checked={task.is_completed}
+                            onChange={() => handleTaskCompletion(task)}
+                        />
+                        <div className={styles.taskTitleAndDescription} onClick={() => handleOpenModal(task)}>
                             <h2>{task.title}</h2>
                             <p>{task.description}</p>
                         </div>
@@ -188,7 +219,7 @@ const TaskIndex: React.FC = () => {
                                 e.stopPropagation();
                                 handleDeleteTask(task.id);
                             }}>
-                                <FontAwesomeIcon icon={faTrash}/>
+                                <FontAwesomeIcon icon={faTrash} style={{color: '#90DE1B'}}/>
                             </IconButton>
                         </p>
                     </li>
@@ -226,6 +257,7 @@ const TaskIndex: React.FC = () => {
                         label="Título"
                         fullWidth
                         value={newTask.title}
+                        className={styles.modalItem}
                         onChange={(e) => setNewTask({...newTask, title: e.target.value})}
                         margin="normal"
                     />
@@ -233,6 +265,7 @@ const TaskIndex: React.FC = () => {
                         label="Descrição"
                         fullWidth
                         value={newTask.description}
+                        className={styles.modalItem}
                         onChange={(e) => setNewTask({...newTask, description: e.target.value})}
                         margin="normal"
                     />
@@ -240,6 +273,7 @@ const TaskIndex: React.FC = () => {
                         label="Prioridade"
                         fullWidth
                         value={newTask.priority}
+                        className={styles.modalItem}
                         onChange={(e) => setNewTask({...newTask, priority: e.target.value})}
                     >
                         <MenuItem value="NO_PRIORITY">Selecione a prioridade</MenuItem>
@@ -251,6 +285,7 @@ const TaskIndex: React.FC = () => {
                         label="Tag"
                         fullWidth
                         value={newTask.tag}
+                        className={styles.modalItem}
                         onChange={(e) => setNewTask({...newTask, tag: e.target.value})}
                     >
                         <MenuItem value="SAUDE">Selecione a tag</MenuItem>
@@ -266,6 +301,7 @@ const TaskIndex: React.FC = () => {
                         label="Opções de data"
                         fullWidth
                         value={dateOption}
+                        className={styles.modalItem}
                         onChange={(e) => setDateOption(e.target.value)}
                     >
                         <MenuItem value="days_to_complete">Dias para completar</MenuItem>
@@ -286,25 +322,24 @@ const TaskIndex: React.FC = () => {
                             fullWidth
                             type="datetime-local"
                             value={newTask.due_date}
-                            onChange={(e) => setNewTask({...newTask, due_date: e.target.value})}
+                            className={styles.modalItem}
+                            onChange={(e) => setNewTask({...newTask, due_date: handleDueDate(e.target.value)})}
                             margin="normal"
                         />
                     )}
                     <Button
                         variant="contained"
-                        color="primary"
                         onClick={handleCreateOrUpdateTask}
                         fullWidth
-                        style={{marginTop: '16px'}}
+                        className={styles.createEditButton}
                     >
-                        {editingTaskId ? 'Update Task' : 'Create Task'}
+                        {editingTaskId ? 'Editar' : 'Criar'}
                     </Button>
                     <Button
                         variant="outlined"
-                        color="secondary"
                         onClick={handleCloseModal}
                         fullWidth
-                        style={{marginTop: '8px'}}
+                        className={styles.cancelButton}
                     >
                         Cancel
                     </Button>

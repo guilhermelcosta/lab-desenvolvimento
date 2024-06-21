@@ -33,4 +33,9 @@ export const updateTask = async (id: string, task: Task): Promise<Task> => {
     }).then(response => response.json());
 };
 
+export const updateIsCompletedTask = async (id: string): Promise<void> => {
+    await fetch(`${Environment.BASE_URL}/task/${id}`, {
+        method: "PATCH",
+    });
+};
 
