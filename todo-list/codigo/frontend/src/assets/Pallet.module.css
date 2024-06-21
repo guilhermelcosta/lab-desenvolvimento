@@ -3,9 +3,9 @@
     --primary-dark: #21272AFF;
     --primary-light: antiquewhite;
     --primary-green: #90DE1B;
-    --tag: purple;
+    --tag: gray;
     --no-priority: white;
-    --low-priority: lightgreen;
-    --medium-priority: lightyellow;
-    --high-priority: lightcoral;
+    --low-priority: #90DE1B;
+    --medium-priority: yellow;
+    --high-priority: red;
 }

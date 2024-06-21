@@ -1,4 +1,4 @@
-import styles from "../../pages/TaskIndex.module.css";
+import styles from "../../pages/index/TaskIndex.module.css";
 
 export class TextConstants {
 

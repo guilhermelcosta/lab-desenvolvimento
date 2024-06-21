@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import {HashRouter as Router, Route, Routes} from 'react-router-dom'
-import TaskIndex from "./pages/TaskIndex";
+import TaskIndex from "./pages/index/TaskIndex";
 import './assets/Pallet.module.css'
 
 function App() {
